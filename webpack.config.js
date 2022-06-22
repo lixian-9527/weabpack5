@@ -1,6 +1,6 @@
-const { resolve } = require("path")
+const { resolve } = require("path");
 // 引用插件 html-webpack-plugin
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     // 入口
@@ -14,7 +14,19 @@ module.exports = {
 
     // 加载器
     module: {
-        rules: []
+        rules: [
+            {
+                // 匹配哪些文件
+                test: /\.css$/,
+                // 使用哪些loader进行处理，use中执行顺序右到左，下到上
+                use: [
+                    // 创建style标签，将js中的样式资源插入添加到header中生效
+                    'style-loader',
+                    // 将css文件加载到js中，里面内容是样式字符串
+                    'css-loader'
+                ]
+            }
+        ]
     },
 
     // 插件
@@ -40,4 +52,4 @@ module.exports = {
 
     // 模式
     mode:"development"
-}
+};
