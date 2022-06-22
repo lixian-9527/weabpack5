@@ -25,7 +25,16 @@ module.exports = {
                     // 将css文件加载到js中，里面内容是样式字符串
                     'css-loader'
                 ]
+            },
+            {
+                test: /\.less$/,
+                use: ['style-loader','css-loader','less-loader']
+            },
+            {
+                test: /\.scss$/,
+                use: ['style-loader','css-loader','sass-loader']
             }
+
         ]
     },
 
