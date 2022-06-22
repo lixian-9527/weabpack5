@@ -2,6 +2,9 @@ const { resolve } = require("path");
 // 引用插件 html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+// 引用插件 mini-css-extract-plugin
+const MiniCssExtractPlugin= require("mini-css-extract-plugin");
+
 module.exports = {
     // 入口
     entry: './src/index.js',
@@ -20,19 +23,22 @@ module.exports = {
                 test: /\.css$/,
                 // 使用哪些loader进行处理，use中执行顺序右到左，下到上
                 use: [
-                    // 创建style标签，将js中的样式资源插入添加到header中生效
-                    'style-loader',
+                    // 创建style标签，将js中的样式资源插入添加到header中生效,
+                    // MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
+                    MiniCssExtractPlugin.loader,
                     // 将css文件加载到js中，里面内容是样式字符串
                     'css-loader'
                 ]
             },
+            // 打包less,MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
             {
                 test: /\.less$/,
-                use: ['style-loader','css-loader','less-loader']
+                use: [MiniCssExtractPlugin.loader,'css-loader','less-loader']
             },
+            // 打包sass,MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
             {
                 test: /\.scss$/,
-                use: ['style-loader','css-loader','sass-loader']
+                use: [MiniCssExtractPlugin.loader,'css-loader','sass-loader']
             }
 
         ]
@@ -56,7 +62,10 @@ module.exports = {
                 // 移除注释
                 removeComments: true
             }
-        })
+        }),
+
+        // 使用单独打包css插件
+        new MiniCssExtractPlugin()
     ],
 
     // 模式
