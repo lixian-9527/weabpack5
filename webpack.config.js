@@ -5,6 +5,9 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 // 引用插件 mini-css-extract-plugin
 const MiniCssExtractPlugin= require("mini-css-extract-plugin");
 
+// 引入插件optimize-css-assets-webpack-plugin
+const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
+
 module.exports = {
     // 入口
     entry: './src/index.js',
@@ -67,7 +70,10 @@ module.exports = {
         }),
 
         // 使用单独打包css插件
-        new MiniCssExtractPlugin()
+        new MiniCssExtractPlugin(),
+
+        // 打包压缩css的注释和空格
+        new OptimizeCssAssetsWebpackPlugin()
     ],
 
     // 模式

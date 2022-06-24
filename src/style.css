@@ -5,3 +5,12 @@
     background: yellow;
     backface-visibility: hidden;
 }
+
+/*
+    css打包压缩去注释和空格测试
+    width: 200px;
+    height: 200px;
+    color: red;
+    background: yellow;
+    backface-visibility: hidden;
+ */
