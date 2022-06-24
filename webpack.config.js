@@ -27,18 +27,20 @@ module.exports = {
                     // MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
                     MiniCssExtractPlugin.loader,
                     // 将css文件加载到js中，里面内容是样式字符串
-                    'css-loader'
+                    'css-loader',
+                    // 处理不同浏览器css兼容问题
+                    'postcss-loader'
                 ]
             },
             // 打包less,MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
             {
                 test: /\.less$/,
-                use: [MiniCssExtractPlugin.loader,'css-loader','less-loader']
+                use: [MiniCssExtractPlugin.loader,'css-loader','less-loader', 'postcss-loader']
             },
             // 打包sass,MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
             {
                 test: /\.scss$/,
-                use: [MiniCssExtractPlugin.loader,'css-loader','sass-loader']
+                use: [MiniCssExtractPlugin.loader,'css-loader','sass-loader', 'postcss-loader']
             }
 
         ]

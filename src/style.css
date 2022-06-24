@@ -3,4 +3,5 @@
     height: 200px;
     color: red;
     background: yellow;
+    backface-visibility: hidden;
 }
