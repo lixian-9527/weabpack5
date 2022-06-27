@@ -44,8 +44,43 @@ module.exports = {
             {
                 test: /\.scss$/,
                 use: [MiniCssExtractPlugin.loader,'css-loader','sass-loader', 'postcss-loader']
-            }
+            },
+            // 打包图片
+            {
+                  // // 在webpack5中url-loader、file-loader已经弃用，
+                  // test: /\.(jpg|png|gif)$/i,  //i表示忽略图片格式大小写，例如.PNG
+                  // loader: 'url-loader',  // url-loader中依赖file-loader 所以我们要同时安装url-loader和file-loader
+                  // // 如果想要继续使用则需要:
+                  // // 1. 在use后添加type: 'javascript/auto';
+                  // // 2.url-loader默认采用ES模块语法，即import ‘…/aaa.png’；
+                  // options:{
+                  //   // publicPath: './images/', // 注掉，不知为何在打包css图片时'./'当前路径打包不进去
+                  //   outputPath: "images/",
+                  //   limit: 10*1024, //如果图片小于10k，就使用base64处理，
+                  //   esModule:false // url-loader默认采用ES6模块语法  html-loader使用commonJs  所以这里需要关闭es模块语法即可
+                  // },
+                  // type: 'javascript/auto'
 
+                test: /\.(jpg|png|gif|jpeg|jfif)$/,
+                type: 'asset',
+                //解析
+                parser: {
+                    // base64就是一串字符串码表示的图片，在加载页面和js时一块加载出来，减少了加载图片时的http请求。
+                    // 加载一张图片时会发起一次http请求，http请求每次建立都会需要一定的时间，
+                    // 对于加载一张小图来说，下载图片所需的时间会比建立http请求的时间要短，
+                    // 所以对小图进行base64转码是优化http请求，保证页面加速渲染，加快页面加载速度。
+                    dataUrlCondition: {
+                        maxSize: 8*1024, // 8kb
+                    }
+                },
+                generator: {
+                    filename: 'images/[hash][ext][query]', // 打包后会放到images文件夹下  hash缓存
+                }
+            },
+            {
+                test:/\.html$/,
+                loader:'html-loader',
+            }
         ]
     },
 
