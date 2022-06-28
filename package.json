@@ -26,5 +26,10 @@
     "url-loader": "^4.1.1",
     "webpack": "^5.69.1",
     "webpack-cli": "^4.9.2"
-  }
+  },
+  "browserslist": [
+    "> 0.2%",
+    "last 2 versions",
+    "not dead"
+  ]
 }
