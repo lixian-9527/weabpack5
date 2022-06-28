@@ -8,6 +8,9 @@ const MiniCssExtractPlugin= require("mini-css-extract-plugin");
 // 引入插件optimize-css-assets-webpack-plugin
 const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plugin');
 
+// 引入插件eslint-webpack-plugin
+const ESLintPlugin = require('eslint-webpack-plugin');
+
 module.exports = {
     // 入口
     entry: './src/index.js',
@@ -80,7 +83,15 @@ module.exports = {
             {
                 test:/\.html$/,
                 loader:'html-loader',
-            }
+            },
+            // eslint 配置 webpack4 使用eslint-loader
+            // {
+            //     // 只检查js代码
+            //     test: /\.js$/,
+            //     // 去除第三方包
+            //     exclude: /node_modules/,
+            //     loader: 'eslint-loader'
+            // }
         ]
     },
 
@@ -108,7 +119,15 @@ module.exports = {
         new MiniCssExtractPlugin(),
 
         // 打包压缩css的注释和空格
-        new OptimizeCssAssetsWebpackPlugin()
+        new OptimizeCssAssetsWebpackPlugin(),
+
+        // webpack5 配置eslint插件
+        new ESLintPlugin({
+            extensions: ['js'],
+            context: resolve('src'),
+            exclude: '/node_modules',
+            // fix: true
+        })
     ],
 
     // 模式
