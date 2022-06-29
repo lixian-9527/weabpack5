@@ -13,7 +13,7 @@ const ESLintPlugin = require('eslint-webpack-plugin');
 
 module.exports = {
     // 入口
-    entry: './src/index.js',
+    entry: ['./src/index.js'],
 
     // 输出
     output: {
@@ -31,7 +31,8 @@ module.exports = {
                 use: [
                     // 创建style标签，将js中的样式资源插入添加到header中生效,
                     // MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
-                    MiniCssExtractPlugin.loader,
+                    // MiniCssExtractPlugin.loader,
+                    'style-loader',
                     // 将css文件加载到js中，里面内容是样式字符串
                     'css-loader',
                     // 处理不同浏览器css兼容问题
@@ -126,9 +127,21 @@ module.exports = {
             extensions: ['js'],
             context: resolve('src'),
             exclude: '/node_modules',
-            // fix: true
+            fix: true
         })
     ],
+
+    // 在webpack5 中需要加上这个配置才可以自动刷新页面
+    target: "web",
+
+    // 开发服务器配置
+    devServer: {
+        port: 3000, // 指定端口
+        compress: true,
+        open: true, // 启动打开浏览器
+        hot: true, // 开启HMR
+        watchFiles: ['src/**/*.html'] // 用于监听HTML文件修改后实时刷新
+    },
 
     // 模式
     mode:"development"
