@@ -27,6 +27,20 @@
     background-repeat: no-repeat;
     background-size: 100%;
 }
+#img4 {
+    width: 200px;
+    height: 80px;
+    background-image: url("./images/three.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+#img5 {
+    width: 200px;
+    height: 80px;
+    background-image: url("./images/three.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
 /*
     css打包压缩去注释和空格测试
     width: 200px;

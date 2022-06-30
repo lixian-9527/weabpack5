@@ -1,4 +1,4 @@
-const { resolve } = require("path");
+const { resolve, join } = require("path");
 // 引用插件 html-webpack-plugin
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
@@ -10,6 +10,13 @@ const OptimizeCssAssetsWebpackPlugin = require('optimize-css-assets-webpack-plug
 
 // 引入插件eslint-webpack-plugin
 const ESLintPlugin = require('eslint-webpack-plugin');
+
+// 引用插件purgecss-webpack-plugin
+const PurgecssWebpackPlugin = require('purgecss-webpack-plugin');
+
+// purgecss需要使用的一些插件变量
+const glob = require('glob');
+const PATHS = {src:join(__dirname, 'src')};
 
 module.exports = {
     // 入口
@@ -31,8 +38,8 @@ module.exports = {
                 use: [
                     // 创建style标签，将js中的样式资源插入添加到header中生效,
                     // MiniCssExtractPlugin.loader将css打包单独文件，再通过link标签引入css
-                    // MiniCssExtractPlugin.loader,
-                    'style-loader',
+                    // 开发模式使用style-loader开启hmr热替换模块
+                    MiniCssExtractPlugin.loader,
                     // 将css文件加载到js中，里面内容是样式字符串
                     'css-loader',
                     // 处理不同浏览器css兼容问题
@@ -128,6 +135,11 @@ module.exports = {
             context: resolve('src'),
             exclude: '/node_modules',
             fix: true
+        }),
+
+        // 配置打包css去除没有使用代码
+        new PurgecssWebpackPlugin({
+            paths: glob.sync(`${PATHS.src}/**/*`,  { nodir: true })
         })
     ],
 
