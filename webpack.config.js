@@ -99,7 +99,14 @@ module.exports = {
             //     // 去除第三方包
             //     exclude: /node_modules/,
             //     loader: 'eslint-loader'
-            // }
+            // },
+
+            // 打包TS文件
+            {
+                test: /\.ts$/,
+                loader: 'ts-loader',
+                exclude: /node_modules/
+            }
         ]
     },
 
