@@ -25,7 +25,10 @@ module.exports = {
     // 输出
     output: {
         filename: "build.js",
-        path: resolve(__dirname, 'build')
+        path: resolve(__dirname, 'build'),
+        environment: {
+            arrowFunction: false // 关闭webpack的箭头函数，可选
+        }
     },
 
     // 加载器
@@ -103,8 +106,65 @@ module.exports = {
 
             // 打包TS文件
             {
+                // test 指定的是规则生效的文件
+                test: /\.js$/,
+                // 要是用的loader
+                use: [
+                    {
+                        // 指定加载器
+                        loader: "babel-loader",
+                        // 设置Babel
+                        options:{
+                            // 设置预定义的环境
+                            presets: [
+                                [
+                                    // 指定环境的插件
+                                    "@babel/preset-env",
+                                    // 配置信息
+                                    {
+                                        // 需要兼容的浏览器以及版本
+                                        "targets":{
+                                            "chrome": "58",
+                                            "ie": "11"
+                                        },
+                                        // 指定core.js的版本
+                                        "corejs":"3",
+                                        // 使用core.js的方式"usage"表示按需加载
+                                        "useBuiltIns": "usage"
+                                    }
+                                ]
+                            ]
+                        }
+                    }
+                ],
+                exclude: /node_modules/
+            },
+            {
                 test: /\.ts$/,
-                loader: 'ts-loader',
+                use: [
+                    {
+                        loader: "babel-loader",
+                        options:{
+                            presets: [
+                                [
+                                    "@babel/preset-env",
+                                    {
+                                        "targets":{
+                                            "chrome": "58",
+                                            "ie": "11"
+                                        },
+                                        "corejs":"3",
+                                        "useBuiltIns": "usage"
+                                    }
+                                ]
+                            ]
+                        }
+                    },
+                    {
+                        loader: "ts-loader",
+
+                    }
+                ],
                 exclude: /node_modules/
             }
         ]
@@ -113,7 +173,7 @@ module.exports = {
     // 插件
     plugins: [
         // 构造方法默认会创建一个空的HTML文件，自动引入打包输出的所有资源（js/css）
-        // new HtmlWebpackPlugin()
+        // new HtmlWebpackPlugin(),
 
         // 通过参数可以输出有结构的HTML资源
         new HtmlWebpackPlugin({

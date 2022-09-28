@@ -1,9 +1,9 @@
 import { a as c, b, add as tsAdd } from './typeScript.ts';
 
-require('./style.css');
-require('./styleless.less');
-require('./stylesass.scss');
-require('./hrm-test');
+import './style.css';
+import './styleless.less';
+import './stylesass.scss';
+import './hrm-test';
 
 // eslint-disable-next-line
 console.log(tsAdd(c, b));
